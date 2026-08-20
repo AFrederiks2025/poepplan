@@ -1,115 +1,65 @@
 import { HeroArt } from "@/components/hero-art";
+import { PathDivider } from "@/components/path-divider";
+import { TogetherArt } from "@/components/together-art";
+import { WaitlistCta } from "@/components/waitlist-cta";
 import { WaitlistForm } from "@/components/waitlist-form";
-import { site } from "@/lib/site";
-
-const herkenning = [
-  {
-    title: "Verstopping",
-    text: "Poepen doet pijn, gebeurt weinig, of is hard en lastig. De wc voelt als iets om tegenop te zien — voor je kind, en vaak ook voor jou.",
-  },
-  {
-    title: "Ophouden",
-    text: "Je kind móet, maar houdt tegen. Op de tenen, wegkijken, “ik hoef niet”. Vaak uit angst of controle. Zelden uit stiekemheid.",
-  },
-  {
-    title: "Poepstress",
-    text: "Ruzie voor de wc. Tranen. Schaamte. Jij die het goed wilt doen, en merkt dat duwen en smeken het eerder erger maakt.",
-  },
-];
-
-const principes = [
-  {
-    step: "01",
-    title: "Eerst begrijpen",
-    text: "Wat er speelt in gedrag, spanning en ritme — in woorden die je aan de keukentafel kunt uitleggen.",
-  },
-  {
-    step: "02",
-    title: "Druk eraf, ritme erin",
-    text: "Minder strijd, meer voorspelbaarheid. Geen toverspreuk, wel een rustiger kader voor thuis.",
-  },
-  {
-    step: "03",
-    title: "Kleine stappen",
-    text: "Op jullie tempo. Het programma volgt de ouder: jij bepaalt wat past bij jouw kind.",
-  },
-  {
-    step: "04",
-    title: "Zonder schuld",
-    text: "Poepstress zegt niets over hoe goed je ouder bent. Die toon houden we vast.",
-  },
-];
-
-const vragen = [
-  {
-    q: "Wanneer start het programma?",
-    a: "Zodra het klaar is. We mailen de wachtlijst. Een vaste datum zetten we hier niet neer zolang die er niet is.",
-  },
-  {
-    q: "Wat kost het?",
-    a: "De prijs is nog niet vastgelegd. Die vermelden we pas als hij klopt — geen verzonnen bedrag.",
-  },
-  {
-    q: "Is dit medisch advies?",
-    a: "Nee. Poepplan is ondersteuning voor ouders, geen diagnose en geen vervanging van de huisarts.",
-  },
-  {
-    q: "Voor welke leeftijd?",
-    a: "Voor ouders van kinderen die moeite hebben met poepen. De precieze leeftijdsrange volgt bij de start van het programma.",
-  },
-];
+import {
+  contrastRows,
+  faqJsonLd,
+  guides,
+  herkenning,
+  hero,
+  principes,
+  vragen,
+  websiteJsonLd,
+} from "@/lib/content";
+import { tapTarget } from "@/lib/ui";
 
 export default function Home() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: site.name,
-    url: site.url,
-    inLanguage: "nl-NL",
-    description: site.description,
-  };
-
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
       <section className="overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-20">
           <div>
             <p className="text-sm font-semibold tracking-wide text-sage uppercase">
-              Online programma voor ouders
+              {hero.eyebrow}
             </p>
             <h1 className="mt-3 max-w-xl font-display text-4xl leading-tight text-ink sm:text-5xl lg:text-[3.4rem]">
-              Als poepen thuis een strijd is
+              {hero.title}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-ink-soft">
-              Poepplan is een online programma voor ouders van kinderen die
-              moeite hebben met poepen. Verstopping, ophouden of poepstress: je
-              hoeft het niet alleen uit te zoeken — en je kind hoeft zich er
-              niet voor te schamen.
-            </p>
+            <div className="mt-6 lg:hidden">
+              <HeroArt />
+            </div>
+            <p className="mt-5 max-w-xl text-lg leading-8 text-ink-soft">{hero.lead}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="#aanmelden"
-                className="inline-flex items-center justify-center rounded-full bg-clay px-6 py-3.5 text-base font-semibold text-cream shadow-sm transition hover:bg-clay-dark"
-              >
-                Houd me op de hoogte
-              </a>
+              <WaitlistCta />
               <a
                 href="#programma"
-                className="inline-flex items-center justify-center rounded-full border border-sand bg-cream px-6 py-3.5 text-base font-semibold text-ink transition hover:border-clay/40"
+                className={`${tapTarget} border border-sand bg-cream text-ink transition hover:border-clay/40`}
               >
-                Wat is Poepplan?
+                {hero.secondary}
               </a>
             </div>
+            <p className="mt-4 max-w-xl text-base leading-7 text-ink-soft">{hero.micro}</p>
           </div>
-          <HeroArt />
+          <div className="hidden lg:block">
+            <HeroArt />
+          </div>
         </div>
       </section>
 
-      <section id="herkenning" className="bg-cream/70">
+      <PathDivider />
+
+      <section id="herkenning" className="scroll-mt-20 bg-cream/70">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <p className="text-sm font-semibold tracking-wide text-sage uppercase">
             Herkenning
@@ -128,83 +78,95 @@ export default function Home() {
                 key={item.title}
                 className="rounded-3xl border border-sand bg-paper p-6 shadow-sm"
               >
-                <h3 className="font-display text-2xl text-ink">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-ink-soft">{item.text}</p>
+                <h3 className="font-display text-2xl text-clay-dark">{item.title}</h3>
+                <p className="mt-3 text-base leading-7 text-ink-soft">{item.text}</p>
+                <a
+                  className="mt-4 inline-flex min-h-11 items-center text-base font-semibold text-sage underline decoration-sage-soft underline-offset-4 hover:text-ink"
+                  href={item.href}
+                >
+                  Kort artikel
+                </a>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="programma" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div>
-            <p className="text-sm font-semibold tracking-wide text-sage uppercase">
-              Het programma
-            </p>
-            <h2 className="mt-2 font-display text-3xl text-ink sm:text-4xl">
-              Een rustig plan voor thuis. Geen spreekkamer, geen oordeel.
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-ink-soft">
-              Poepplan wordt een online programma dat jij als ouder volgt. In
-              je eigen tempo, op je eigen bank. Je krijgt uitleg die je snapt,
-              en stappen die je thuis kunt zetten — zonder je kind te forceren.
-            </p>
-            <ul className="mt-6 space-y-3 text-ink-soft">
-              <li className="flex gap-3">
-                <span className="mt-2 size-2 shrink-0 rounded-full bg-clay" />
-                Helder beeld van wat er speelt: gedrag, spanning, ritme
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-2 size-2 shrink-0 rounded-full bg-clay" />
-                Een stappenplan in kleine brokken
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-2 size-2 shrink-0 rounded-full bg-clay" />
-                Taal die je kind niet beschaamt
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-2 size-2 shrink-0 rounded-full bg-clay" />
-                Houvast als het weer even vastloopt
-              </li>
-            </ul>
-          </div>
-          <div className="rounded-3xl bg-paper-deep p-7 sm:p-8">
-            <h3 className="font-display text-2xl text-ink">Wat het níet is</h3>
-            <ul className="mt-5 space-y-4 text-sm leading-7 text-ink-soft">
-              <li>
-                <strong className="text-ink">Geen medisch consult.</strong> We
-                stellen geen diagnose en schrijven geen behandeling voor.
-              </li>
-              <li>
-                <strong className="text-ink">Geen snelle belofte.</strong> Geen
-                “binnen twee weken opgelost”. Elk kind is anders.
-              </li>
-              <li>
-                <strong className="text-ink">Geen winkeltje (nog).</strong> Er
-                is nog geen checkout of prijs. Eerst een eerlijke wachtlijst.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-14 grid gap-5 sm:grid-cols-2">
-          {principes.map((item) => (
-            <article
-              key={item.step}
-              className="rounded-3xl border border-sand bg-cream p-6"
-            >
-              <p className="text-xs font-semibold tracking-[0.2em] text-gold">
-                {item.step}
+      <section id="programma" className="scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <p className="text-sm font-semibold tracking-wide text-sage uppercase">
+                Het programma
               </p>
-              <h3 className="mt-2 font-display text-2xl text-ink">{item.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-ink-soft">{item.text}</p>
-            </article>
-          ))}
+              <h2 className="mt-2 font-display text-3xl text-ink sm:text-4xl">
+                Een rustig plan voor thuis. Geen spreekkamer, geen oordeel.
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-ink-soft">
+                Poepplan wordt een online programma dat jij als ouder volgt. In
+                je eigen tempo, op je eigen bank. Je krijgt uitleg die je snapt,
+                en stappen die je thuis kunt zetten — zonder je kind te forceren.
+              </p>
+              <ul className="mt-6 space-y-3 text-base text-ink-soft">
+                {[
+                  "Helder beeld van wat er speelt: gedrag, spanning, ritme",
+                  "Een stappenplan in kleine brokken",
+                  "Taal die je kind niet beschaamt",
+                  "Houvast als het weer even vastloopt",
+                ].map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="mt-2 size-2 shrink-0 rounded-full bg-sage" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <TogetherArt />
+          </div>
+
+          <div className="mt-12 overflow-hidden rounded-3xl border border-sand bg-paper">
+            <div className="grid grid-cols-2 bg-paper-deep text-base font-semibold">
+              <p className="px-5 py-3 text-clay-dark">Niet</p>
+              <p className="px-5 py-3 text-sage">Wél</p>
+            </div>
+            {contrastRows.map((row) => (
+              <div
+                key={row.niet}
+                className="grid grid-cols-1 border-t border-sand sm:grid-cols-2"
+              >
+                <p className="px-5 py-4 text-base leading-7 text-ink-soft">
+                  <span className="mr-2 font-semibold text-clay-dark sm:hidden">Niet. </span>
+                  {row.niet}
+                </p>
+                <p className="border-t border-sand px-5 py-4 text-base leading-7 text-ink-soft sm:border-t-0 sm:border-l">
+                  <span className="mr-2 font-semibold text-sage sm:hidden">Wél. </span>
+                  {row.wel}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 grid gap-5 sm:grid-cols-2">
+            {principes.map((item) => (
+              <article
+                key={item.step}
+                className="rounded-3xl border border-sand bg-cream p-6"
+              >
+                <p className="text-xs font-semibold tracking-[0.2em] text-gold">
+                  {item.step}
+                </p>
+                <h3 className="mt-2 font-display text-2xl text-ink">{item.title}</h3>
+                <p className="mt-2 text-base leading-7 text-ink-soft">{item.text}</p>
+                <p className="mt-3 text-base leading-7 font-medium text-sage">{item.outcome}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section id="voor-wie" className="bg-ink text-cream">
+      <PathDivider />
+
+      <section id="voor-wie" className="scroll-mt-20 bg-ink text-cream">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2">
           <div>
             <p className="text-sm font-semibold tracking-wide text-peach uppercase">
@@ -213,7 +175,7 @@ export default function Home() {
             <h2 className="mt-2 font-display text-3xl sm:text-4xl">
               Voor ouders bij wie poepen groter is geworden dan het zou moeten zijn
             </h2>
-            <ul className="mt-6 space-y-3 text-sm leading-7 text-peach/90">
+            <ul className="mt-6 space-y-3 text-base leading-7 text-peach">
               <li>Je kind poept met pijn, zelden, of alleen in een luier</li>
               <li>Je kind houdt poep op</li>
               <li>De wc is een dagelijkse bron van stress</li>
@@ -222,13 +184,13 @@ export default function Home() {
           </div>
           <div className="rounded-3xl bg-white/10 p-7 ring-1 ring-white/10">
             <h3 className="font-display text-2xl">Eerst naar de huisarts als</h3>
-            <ul className="mt-5 space-y-3 text-sm leading-7 text-peach/90">
+            <ul className="mt-5 space-y-3 text-base leading-7 text-peach">
               <li>er bloed bij de poep zit</li>
               <li>je kind hevige buikpijn heeft, koorts, of ziek is</li>
               <li>je kind afvalt of duidelijk minder drinkt</li>
               <li>jij het gevoel hebt dat er iets medisch speelt</li>
             </ul>
-            <p className="mt-5 text-sm leading-7 text-peach/80">
+            <p className="mt-5 text-base leading-7 text-peach/90">
               Twijfel je? Dat is reden genoeg om te bellen. Poepplan komt
               daarna — niet in de plaats daarvan.
             </p>
@@ -236,20 +198,47 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="aanmelden" className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
+      <section id="maker" className="scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="grid items-center gap-10 rounded-3xl border border-sand bg-cream p-6 sm:p-8 lg:grid-cols-[auto_1fr]">
+            <div
+              className="flex size-28 shrink-0 items-center justify-center rounded-3xl bg-sage-soft font-display text-4xl text-sage"
+              aria-hidden="true"
+            >
+              AF
+            </div>
+            <div>
+              <p className="text-sm font-semibold tracking-wide text-sage uppercase">
+                Wie maakt Poepplan?
+              </p>
+              <h2 className="mt-2 font-display text-3xl text-ink">Anton Frederiks</h2>
+              <p className="mt-3 max-w-2xl text-lg leading-8 text-ink-soft">
+                Anton bouwt Poepplan voor ouders. Hij is geen arts en stelt
+                geen diagnose. Poepplan hoort naast de huisarts — nooit in de
+                plaats daarvan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="aanmelden" className="h-0 scroll-mt-20" aria-hidden="true" />
+      <section
+        id="wachtlijst"
+        className="scroll-mt-20 mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]"
+      >
         <div>
           <p className="text-sm font-semibold tracking-wide text-sage uppercase">
             Wachtlijst
           </p>
           <h2 className="mt-2 font-display text-3xl text-ink sm:text-4xl">
-            Het programma komt eraan
+            Zet je op de wachtlijst
           </h2>
           <p className="mt-4 text-lg leading-8 text-ink-soft">
-            We zetten Poepplan nu klaar. Prijs, startdatum en de precieze
-            onderdelen volgen — die verzinnen we hier niet. Wil je bericht
-            zodra het open is? Laat je e-mail achter.
+            Eén mail zodra we opengaan. Tot die tijd sturen we af en toe iets
+            dat thuis al helpt. Afmelden kan altijd.
           </p>
-          <p className="mt-4 text-sm leading-7 text-ink-soft">
+          <p className="mt-4 text-base leading-7 text-ink-soft">
             Geen account nodig. Geen betaling. Alleen een seintje als er iets
             te vertellen valt.
           </p>
@@ -266,15 +255,34 @@ export default function Home() {
             {vragen.map((item) => (
               <div key={item.q} className="rounded-3xl bg-paper p-6">
                 <dt className="font-display text-xl text-ink">{item.q}</dt>
-                <dd className="mt-2 text-sm leading-7 text-ink-soft">{item.a}</dd>
+                <dd className="mt-2 text-base leading-7 text-ink-soft">{item.a}</dd>
               </div>
             ))}
           </dl>
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <p className="text-sm font-semibold tracking-wide text-sage uppercase">
+          Eerst lezen
+        </p>
+        <h2 className="mt-2 font-display text-3xl text-ink">Drie korte gidsen</h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {guides.map((guide) => (
+            <a
+              key={guide.href}
+              href={guide.href}
+              className="rounded-3xl border border-sand bg-cream p-6 transition hover:border-sage/40"
+            >
+              <h3 className="font-display text-2xl text-ink">{guide.title}</h3>
+              <p className="mt-2 text-base leading-7 text-ink-soft">{guide.text}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <aside className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <div className="rounded-3xl border border-sand bg-cream px-6 py-5 text-sm leading-7 text-ink-soft">
+        <div className="rounded-3xl border border-sand bg-cream px-6 py-5 text-base leading-7 text-ink-soft">
           <strong className="text-ink">Korte noot. </strong>
           Poepplan is bedoeld als ondersteuning voor ouders. Het is geen
           medisch advies en geen vervanging van de huisarts of een andere

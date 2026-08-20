@@ -63,7 +63,7 @@ export default function OpenGraphImage() {
               maxWidth: 780,
             }}
           >
-            Een online programma voor ouders. Warm, duidelijk, zonder schaamte.
+            Wachtlijst open. Een online programma voor ouders. Warm, zonder schaamte.
           </div>
         </div>
       </div>

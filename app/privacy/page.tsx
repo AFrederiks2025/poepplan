@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getContactEmail } from "@/lib/site";
+import { contactEmail } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Privacy",
@@ -9,8 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const email = getContactEmail();
-
   return (
     <article className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
       <p className="text-sm font-semibold tracking-wide text-sage uppercase">
@@ -24,13 +22,13 @@ export default function PrivacyPage() {
         weinig, en alleen om je te informeren over het programma.
       </p>
 
-      <div className="mt-10 space-y-8 text-sm leading-7 text-ink-soft">
+      <div className="mt-10 space-y-8 text-base leading-7 text-ink-soft">
         <section>
           <h2 className="font-display text-2xl text-ink">Wat we vragen</h2>
           <p className="mt-2">
-            Op het formulier kun je je voornaam, e-mailadres, een ruwe
-            leeftijd van je kind en een korte toelichting achterlaten. Alleen
-            e-mail is verplicht.
+            Op het formulier kun je je voornaam, e-mailadres en een ruwe
+            leeftijd van je kind achterlaten. Alleen e-mail is verplicht. Na
+            aanmelding kun je optioneel toelichten wat er speelt.
           </p>
         </section>
 
@@ -47,9 +45,10 @@ export default function PrivacyPage() {
         <section>
           <h2 className="font-display text-2xl text-ink">Waarvoor</h2>
           <p className="mt-2">
-            Alleen om je te laten weten wanneer Poepplan start, of om te
-            reageren op wat je zelf hebt geschreven. Geen verkoop aan derden.
-            Geen stille nieuwsbrieven van andere merken.
+            Alleen om je te laten weten wanneer Poepplan start, om af en toe
+            iets te sturen dat thuis al kan helpen, of om te reageren op wat
+            je zelf hebt geschreven. Geen verkoop aan derden. Geen stille
+            nieuwsbrieven van andere merken. Afmelden kan altijd.
           </p>
         </section>
 
@@ -65,18 +64,10 @@ export default function PrivacyPage() {
           <h2 className="font-display text-2xl text-ink">Je rechten</h2>
           <p className="mt-2">
             Je mag vragen wat we van je hebben, het laten aanpassen of laten
-            wissen. Stuur daarvoor een bericht
-            {email ? (
-              <>
-                {" "}
-                naar{" "}
-                <a className="text-clay underline" href={`mailto:${email}`}>
-                  {email}
-                </a>
-              </>
-            ) : (
-              " via het formulier op de homepage"
-            )}
+            wissen. Stuur daarvoor een bericht naar{" "}
+            <a className="text-clay underline" href={`mailto:${contactEmail}`}>
+              {contactEmail}
+            </a>
             .
           </p>
         </section>

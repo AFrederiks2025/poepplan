@@ -4,17 +4,19 @@ export const site = {
   locale: "nl_NL",
   tagline: "Rust rond poepen. Een plan voor thuis.",
   description:
-    "Poepplan is een online programma voor ouders van kinderen die moeite hebben met poepen: verstopping, ophouden of poepstress. Warm, duidelijk, zonder schaamte.",
+    "Poepplan wordt een online programma voor ouders van kinderen die moeite hebben met poepen: verstopping, ophouden of poepstress. Wachtlijst is open. Warm, duidelijk, zonder schaamte.",
 } as const;
 
-export function getContactEmail(): string | undefined {
+export const publicContactEmail = "hallo@poepplan.nl";
+
+export function getContactEmail(): string {
   const email =
     process.env.CONTACT_EMAIL?.trim() ||
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
 
-  if (!email || !email.includes("@")) {
-    return undefined;
+  if (email && email.includes("@")) {
+    return email;
   }
 
-  return email;
+  return publicContactEmail;
 }

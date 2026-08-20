@@ -4,7 +4,8 @@ import { getContactEmail, site } from "@/lib/site";
 
 export type WaitlistState =
   | { status: "idle" }
-  | { status: "sent" }
+  | { status: "sent"; email: string }
+  | { status: "noted" }
   | { status: "mailto"; mailto: string }
   | { status: "error"; message: string; mailto?: string };
 
@@ -27,7 +28,7 @@ function buildMailto(input: {
   age: string;
   message: string;
 }): string {
-  const to = getContactEmail() ?? "hallo@poepplan.nl";
+  const to = getContactEmail();
   const subject = `Wachtlijst Poepplan — ${input.name || input.email}`;
   const body = [
     "Hallo,",
@@ -104,19 +105,44 @@ async function deliverByResend(payload: {
   return true;
 }
 
+async function deliver(payload: {
+  name: string;
+  email: string;
+  age: string;
+  message: string;
+}): Promise<"sent" | "mailto"> {
+  const record = {
+    source: site.url,
+    name: payload.name,
+    email: payload.email,
+    age: payload.age,
+    message: payload.message,
+    submittedAt: new Date().toISOString(),
+  };
+
+  if (await deliverByWebhook(record)) {
+    return "sent";
+  }
+
+  if (await deliverByResend(payload)) {
+    return "sent";
+  }
+
+  return "mailto";
+}
+
 export async function submitWaitlist(
   _prev: WaitlistState,
   formData: FormData,
 ): Promise<WaitlistState> {
   const honeypot = clean(formData.get("company"), 80);
   if (honeypot) {
-    return { status: "sent" };
+    return { status: "sent", email: "ok@poepplan.nl" };
   }
 
   const name = clean(formData.get("name"), MAX_NAME);
   const email = clean(formData.get("email"), 120).toLowerCase();
   const age = clean(formData.get("age"), 20);
-  const message = clean(formData.get("message"), MAX_MESSAGE);
   const consent = formData.get("consent") === "on";
 
   if (!EMAIL_PATTERN.test(email)) {
@@ -137,24 +163,12 @@ export async function submitWaitlist(
     };
   }
 
-  const payload = {
-    source: site.url,
-    name,
-    email,
-    age,
-    message,
-    submittedAt: new Date().toISOString(),
-  };
-
-  const mailto = buildMailto({ name, email, age, message });
+  const payload = { name, email, age, message: "" };
+  const mailto = buildMailto(payload);
 
   try {
-    if (await deliverByWebhook(payload)) {
-      return { status: "sent" };
-    }
-
-    if (await deliverByResend({ name, email, age, message })) {
-      return { status: "sent" };
+    if ((await deliver(payload)) === "sent") {
+      return { status: "sent", email };
     }
   } catch {
     return {
@@ -166,4 +180,48 @@ export async function submitWaitlist(
   }
 
   return { status: "mailto", mailto };
+}
+
+export async function submitWaitlistNote(
+  _prev: WaitlistState,
+  formData: FormData,
+): Promise<WaitlistState> {
+  const honeypot = clean(formData.get("company"), 80);
+  if (honeypot) {
+    return { status: "noted" };
+  }
+
+  const email = clean(formData.get("email"), 120).toLowerCase();
+  const message = clean(formData.get("message"), MAX_MESSAGE);
+
+  if (!EMAIL_PATTERN.test(email)) {
+    return {
+      status: "error",
+      message: "We konden je toelichting niet koppelen. Mail ons gerust via hallo@poepplan.nl.",
+    };
+  }
+
+  if (!message) {
+    return { status: "noted" };
+  }
+
+  const payload = { name: "", email, age: "", message };
+
+  try {
+    if ((await deliver(payload)) === "sent") {
+      return { status: "noted" };
+    }
+  } catch {
+    return {
+      status: "error",
+      message: "Toelichting versturen lukte net niet. Je mag ons ook mailen via hallo@poepplan.nl.",
+      mailto: buildMailto(payload),
+    };
+  }
+
+  return {
+    status: "error",
+    message: "Toelichting versturen lukte net niet. Je mag ons ook mailen via hallo@poepplan.nl.",
+    mailto: buildMailto(payload),
+  };
 }
