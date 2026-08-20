@@ -35,10 +35,10 @@ Zie `.env.example`.
 
 ## Wat Anton nog moet invullen
 
-- Prijs en eventuele checkout
-- Programma-onderdelen / modules
-- Foto’s en (als gewenst) een echte naam/bio
-- Formulierbestemming: mailbox `hallo@poepplan.nl` of een van de variabelen hierboven
+- Werkende mailbox `hallo@poepplan.nl` (DNS/MX buiten deze repo)
+- Welkomstmail naar de ouder (Resend of webhook); het succesbericht beweert nu bewust geen mail die al is verstuurd
+- Echte founder-alinea en een foto in plaats van het AF-blok
+- Prijs, startdatum en programma-onderdelen — pas als ze kloppen
 
 ## Deploy
 

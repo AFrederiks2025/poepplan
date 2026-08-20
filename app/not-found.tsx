@@ -15,7 +15,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="mt-8 inline-flex rounded-full bg-clay px-6 py-3 font-semibold text-cream hover:bg-clay-dark"
+        className="mt-8 inline-flex min-h-11 items-center rounded-full bg-clay px-6 py-3 font-semibold text-cream hover:bg-clay-dark"
       >
         Naar poepplan.nl
       </Link>

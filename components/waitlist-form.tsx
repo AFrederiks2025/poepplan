@@ -1,12 +1,60 @@
 "use client";
 
 import { useActionState } from "react";
-import { submitWaitlist, type WaitlistState } from "@/lib/waitlist";
+import { waitlistCta } from "@/lib/content";
+import { fieldClass, tapTarget } from "@/lib/ui";
+import { submitWaitlist, submitWaitlistNote, type WaitlistState } from "@/lib/waitlist";
 
 const initialState: WaitlistState = { status: "idle" };
 
-const fieldClass =
-  "mt-1.5 w-full rounded-2xl border border-sand bg-cream px-4 py-3 text-ink shadow-sm outline-none transition focus:border-clay focus:ring-2 focus:ring-peach";
+function OptionalNote({ email }: { email: string }) {
+  const [state, action, pending] = useActionState(submitWaitlistNote, initialState);
+
+  if (state.status === "noted") {
+    return (
+      <p className="mt-5 text-base leading-7 text-ink-soft">
+        Dank je. Dat helpt ons om Poepplan beter te maken.
+      </p>
+    );
+  }
+
+  return (
+    <form action={action} className="mt-6 space-y-3" noValidate>
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="company-note">Bedrijf</label>
+        <input id="company-note" name="company" tabIndex={-1} autoComplete="off" />
+      </div>
+      <input type="hidden" name="email" value={email} />
+      <label className="block text-base font-medium">
+        Wat speelt er, als je het wilt zeggen?{" "}
+        <span className="font-normal text-ink-soft">(mag, hoeft niet)</span>
+        <textarea
+          className={`${fieldClass} min-h-28 resize-y`}
+          name="message"
+          maxLength={800}
+          placeholder="Bijvoorbeeld: ophouden, pijn bij poepen, of stress rond de wc."
+        />
+      </label>
+      {state.status === "error" ? (
+        <p className="rounded-2xl bg-peach/60 px-4 py-3 text-base text-ink" role="alert">
+          {state.message}
+        </p>
+      ) : null}
+      {"mailto" in state && state.mailto ? (
+        <a className={`${tapTarget} bg-ink text-cream hover:bg-ink-soft`} href={state.mailto}>
+          Open e-mail
+        </a>
+      ) : null}
+      <button
+        className={`${tapTarget} border border-sage/30 bg-cream text-sage transition hover:bg-sage-soft disabled:cursor-wait disabled:opacity-70`}
+        type="submit"
+        disabled={pending}
+      >
+        {pending ? "Even geduld…" : "Toelichting versturen"}
+      </button>
+    </form>
+  );
+}
 
 export function WaitlistForm() {
   const [state, action, pending] = useActionState(submitWaitlist, initialState);
@@ -15,14 +63,17 @@ export function WaitlistForm() {
   if (state.status === "sent") {
     return (
       <div
-        className="rounded-3xl border border-sage-soft bg-sage-soft/50 p-6 text-ink"
+        className="rounded-3xl border border-sage/25 bg-sage-soft/60 p-6 text-ink"
         role="status"
+        aria-live="polite"
       >
-        <p className="font-display text-2xl">Je staat op de lijst</p>
-        <p className="mt-2 text-sm leading-6 text-ink-soft">
-          Dank je. We mailen je als Poepplan open gaat — zonder ruis, zonder
-          extra beloftes.
+        <p className="font-display text-2xl text-sage">Je staat op de lijst</p>
+        <p className="mt-2 text-base leading-7 text-ink-soft">
+          Dank je. We mailen je zodra Poepplan opent. Tot die tijd sturen we
+          af en toe iets dat thuis al helpt — als we iets hebben dat écht
+          past.
         </p>
+        <OptionalNote email={state.email} />
       </div>
     );
   }
@@ -35,7 +86,7 @@ export function WaitlistForm() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm font-medium">
+        <label className="block text-base font-medium">
           Voornaam
           <input
             className={fieldClass}
@@ -45,7 +96,7 @@ export function WaitlistForm() {
             maxLength={80}
           />
         </label>
-        <label className="block text-sm font-medium">
+        <label className="block text-base font-medium">
           E-mail <span className="text-clay">*</span>
           <input
             className={fieldClass}
@@ -59,7 +110,7 @@ export function WaitlistForm() {
         </label>
       </div>
 
-      <label className="block text-sm font-medium">
+      <label className="block text-base font-medium">
         Leeftijd van je kind (niet verplicht)
         <select className={fieldClass} name="age" defaultValue="">
           <option value="">Liever niet zeggen</option>
@@ -71,19 +122,9 @@ export function WaitlistForm() {
         </select>
       </label>
 
-      <label className="block text-sm font-medium">
-        Wat speelt er, als je het wilt zeggen?
-        <textarea
-          className={`${fieldClass} min-h-28 resize-y`}
-          name="message"
-          maxLength={800}
-          placeholder="Bijvoorbeeld: ophouden, pijn bij poepen, of stress rond de wc."
-        />
-      </label>
-
-      <label className="flex items-start gap-3 text-sm leading-6 text-ink-soft">
+      <label className="flex min-h-11 items-start gap-3 text-base leading-6 text-ink-soft">
         <input
-          className="mt-1 size-4 accent-clay"
+          className="mt-1 size-5 accent-clay"
           type="checkbox"
           name="consent"
           required
@@ -98,33 +139,34 @@ export function WaitlistForm() {
       </label>
 
       {state.status === "error" ? (
-        <p className="rounded-2xl bg-peach/60 px-4 py-3 text-sm text-ink" role="alert">
+        <p className="rounded-2xl bg-peach/60 px-4 py-3 text-base text-ink" role="alert">
           {state.message}
         </p>
       ) : null}
 
       {mailto ? (
-        <div className="rounded-2xl border border-sand bg-paper-deep px-4 py-3 text-sm leading-6 text-ink-soft">
+        <div
+          className="rounded-2xl border border-sand bg-paper-deep px-4 py-3 text-base leading-7 text-ink-soft"
+          role="status"
+          aria-live="polite"
+        >
           <p>
-            Er is nog geen inbox gekoppeld (of versturen lukte niet). Je kunt je
+            Je aanmelding is nog niet automatisch verstuurd. Je kunt het
             bericht via je eigen e-mail sturen — we hebben de tekst al voor je
             ingevuld.
           </p>
-          <a
-            className="mt-3 inline-flex rounded-full bg-ink px-4 py-2 font-semibold text-cream hover:bg-ink-soft"
-            href={mailto}
-          >
+          <a className={`${tapTarget} mt-3 bg-ink text-cream hover:bg-ink-soft`} href={mailto}>
             Open e-mail
           </a>
         </div>
       ) : null}
 
       <button
-        className="w-full rounded-full bg-clay px-6 py-3.5 text-base font-semibold text-cream shadow-sm transition hover:bg-clay-dark disabled:cursor-wait disabled:opacity-70 sm:w-auto"
+        className={`${tapTarget} w-full bg-clay text-cream shadow-sm transition hover:bg-clay-dark disabled:cursor-wait disabled:opacity-70 sm:w-auto`}
         type="submit"
         disabled={pending}
       >
-        {pending ? "Even geduld…" : "Houd me op de hoogte"}
+        {pending ? "Even geduld…" : waitlistCta}
       </button>
     </form>
   );

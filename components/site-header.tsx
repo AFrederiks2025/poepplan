@@ -1,38 +1,39 @@
 import Link from "next/link";
 import { Mark } from "@/components/mark";
+import { WaitlistCta } from "@/components/waitlist-cta";
 
 const links = [
   { href: "/#herkenning", label: "Herkenning" },
   { href: "/#programma", label: "Het programma" },
   { href: "/#voor-wie", label: "Voor wie" },
-  { href: "/#aanmelden", label: "Aanmelden" },
+  { href: "/#wachtlijst", label: "Wachtlijst" },
 ];
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-sand/70 bg-paper/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay">
-          <Mark className="size-9" />
+    <header className="sticky top-0 z-30 border-b border-sand/60 bg-paper/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
+        <Link
+          href="/"
+          className="flex min-h-11 items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
+        >
+          <Mark className="size-8" />
           <span className="font-display text-xl tracking-tight text-ink">Poepplan</span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-ink-soft md:flex" aria-label="Hoofdmenu">
+        <nav className="hidden items-center gap-1 text-base text-ink-soft md:flex" aria-label="Hoofdmenu">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
+              className="inline-flex min-h-11 items-center rounded-md px-2.5 transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <Link
-          href="/#aanmelden"
-          className="rounded-full bg-clay px-4 py-2 text-sm font-semibold text-cream shadow-sm transition-colors hover:bg-clay-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
-        >
-          Houd me op de hoogte
-        </Link>
+        <WaitlistCta className="max-w-[11.5rem] px-3 text-center text-sm leading-tight sm:max-w-none sm:px-5 sm:text-base sm:leading-normal">
+          Zet me op de wachtlijst
+        </WaitlistCta>
       </div>
     </header>
   );
