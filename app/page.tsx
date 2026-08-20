@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HeroArt } from "@/components/hero-art";
 import { PathDivider } from "@/components/path-divider";
 import { TogetherArt } from "@/components/together-art";
@@ -80,12 +81,12 @@ export default function Home() {
               >
                 <h3 className="font-display text-2xl text-clay-dark">{item.title}</h3>
                 <p className="mt-3 text-base leading-7 text-ink-soft">{item.text}</p>
-                <a
+                <Link
                   className="mt-4 inline-flex min-h-11 items-center text-base font-semibold text-sage underline decoration-sage-soft underline-offset-4 hover:text-ink"
                   href={item.href}
                 >
                   Kort artikel
-                </a>
+                </Link>
               </article>
             ))}
           </div>
@@ -269,14 +270,14 @@ export default function Home() {
         <h2 className="mt-2 font-display text-3xl text-ink">Drie korte gidsen</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {guides.map((guide) => (
-            <a
+            <Link
               key={guide.href}
               href={guide.href}
               className="rounded-3xl border border-sand bg-cream p-6 transition hover:border-sage/40"
             >
               <h3 className="font-display text-2xl text-ink">{guide.title}</h3>
               <p className="mt-2 text-base leading-7 text-ink-soft">{guide.text}</p>
-            </a>
+            </Link>
           ))}
         </div>
       </section>
