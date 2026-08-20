@@ -39,3 +39,7 @@ Zie `.env.example`.
 - Programma-onderdelen / modules
 - Foto’s en (als gewenst) een echte naam/bio
 - Formulierbestemming: mailbox `hallo@poepplan.nl` of een van de variabelen hierboven
+
+## Deploy
+
+Het Vercel-project `poepplan` is al gekoppeld. Na merge van `main` hoort [www.poepplan.nl](https://www.poepplan.nl) deze site te tonen. DNS en domeinen hoeven niet opnieuw gezet.
