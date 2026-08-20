@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #fbf6ee;
+  --paper-deep: #f0e4d2;
+  --sand: #e7d4b8;
+  --ink: #243028;
+  --ink-soft: #4a564c;
+  --clay: #c15f3c;
+  --clay-dark: #9d4a2c;
+  --sage: #5f7d5b;
+  --sage-soft: #d7e4d2;
+  --peach: #f0c4a8;
+  --gold: #c9924a;
+  --white: #fffdf8;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-clay: var(--clay);
+  --color-clay-dark: var(--clay-dark);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-peach: var(--peach);
+  --color-gold: var(--gold);
+  --color-cream: var(--white);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+::selection {
+  background: #f0c4a8;
+  color: var(--ink);
+}
