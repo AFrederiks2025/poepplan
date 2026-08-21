@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mark } from "@/components/mark";
+import { BrandLogo } from "@/components/brand-logo";
 import { WaitlistCta } from "@/components/waitlist-cta";
 
 const links = [
@@ -12,13 +12,12 @@ const links = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-sand/60 bg-paper/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
         <Link
           href="/"
-          className="flex min-h-11 items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
+          className="flex min-h-11 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
         >
-          <Mark className="size-8" />
-          <span className="font-display text-xl tracking-tight text-ink">Poepplan</span>
+          <BrandLogo preload />
         </Link>
         <nav className="hidden items-center gap-1 text-base text-ink-soft md:flex" aria-label="Hoofdmenu">
           {links.map((link) => (
