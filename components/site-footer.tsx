@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mark } from "@/components/mark";
+import { BrandLogo } from "@/components/brand-logo";
 import { contactEmail, guides } from "@/lib/content";
 
 export function SiteFooter() {
@@ -7,10 +7,12 @@ export function SiteFooter() {
     <footer className="border-t border-sand bg-paper-deep">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-10 sm:px-6 md:flex-row md:items-start md:justify-between">
         <div className="max-w-md">
-          <div className="flex items-center gap-2.5">
-            <Mark className="size-8" />
-            <p className="font-display text-lg text-ink">Poepplan</p>
-          </div>
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clay"
+          >
+            <BrandLogo className="h-12 w-auto" />
+          </Link>
           <p className="mt-3 text-base leading-7 text-ink-soft">
             Online programma voor ouders van kinderen die moeite hebben met
             poepen. Geen schaamte. Wel een rustig plan.
